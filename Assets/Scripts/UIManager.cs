@@ -9,9 +9,17 @@ public class UIManager : MonoBehaviour
 
     #region References
 
-    [SerializeField] TextMeshProUGUI playersNameTextMesh;
+    [SerializeField] TextMeshProUGUI playersNameTextMesh, timerTextMesh;
     [SerializeField] TMP_InputField nameInputField;
     [SerializeField] GameObject loadingPanel, menuPanel, playPanel, okButton;
+
+    #endregion
+
+    #region Runtime Variables
+
+    private float _timer;
+    private bool _runTimer = false;
+
 
     #endregion
 
@@ -27,6 +35,16 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
     }
+
+    private void Update()
+    {
+        if (_runTimer && _timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            timerTextMesh.text = _timer.ToString();
+        }
+    }
+
     #endregion
 
     #region OnClick Methods
@@ -77,6 +95,35 @@ public class UIManager : MonoBehaviour
         menuPanel.SetActive(true);
     }
 
+
     #endregion
 
+
+    #region Getters and Setters
+
+    public float TimerFloat
+    {
+        get
+        {
+            return _timer;
+        }
+        set
+        {
+            _timer = value;
+        }
+    }
+
+    public bool RunTimerBool
+    {
+        get
+        {
+            return _runTimer;
+        }
+        set
+        {
+            _runTimer = value;
+        }
+    }
+
+    #endregion
 }

@@ -39,9 +39,18 @@ public class LevelNetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     #endregion
 
     #region PUN Methods
+
+    public override void OnJoinedRoom()
+    {
+        if (getCurrentPlayerCount == 4)
+        {
+            VSGameManager.instance.StartPreparationCorutine();
+        }
+    }
 
     public override void OnLeftRoom()
     {
@@ -56,6 +65,10 @@ public class LevelNetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         print("Entró nuevo usuario: " + newPlayer.NickName);
+        if(getCurrentPlayerCount == 4)
+        {
+            VSGameManager.instance.StartPreparationCorutine();
+        }
     }
 
     #endregion

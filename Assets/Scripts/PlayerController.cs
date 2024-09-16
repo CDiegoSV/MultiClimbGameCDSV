@@ -8,13 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     #region Enum
 
-    public enum PlayerStates { IDLE, MOVING}
+    public enum PlayerStates { IDLE, MOVING, LOCKED}
 
     #endregion
 
     #region Knobs
 
-    [SerializeField] PlayerStates currentPlayerState;
+    public PlayerStates currentPlayerState;
     [SerializeField] LayerMask groundLayerMask;
     [SerializeField] Transform groundCheckRay;
     [SerializeField] float playerSpeed, jumpForce;
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Falling", IsFalling());
             animator.SetBool("Jumped", jumped);
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && IsOnGround())
             {
                 JumpImpulse();
                 jumped = true;

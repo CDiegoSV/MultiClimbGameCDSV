@@ -70,7 +70,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.131
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
@@ -166,11 +166,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Jersey10-Regular SDF
+  m_Name: Jersey UI
   m_EditorClassIdentifier: 
-  hashCode: -2087684235
+  hashCode: 59192078
   material: {fileID: -6733965382210994308}
-  materialHashCode: -1983604043
+  materialHashCode: -471291410
   m_Version: 1.1.0
   m_SourceFontFileGUID: 482ec38fadc7b564b93c9ea6622d59f4
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 482ec38fadc7b564b93c9ea6622d59f4, type: 3}

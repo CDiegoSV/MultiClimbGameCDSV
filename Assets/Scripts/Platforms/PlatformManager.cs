@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlatformManager : MonoBehaviourPunCallbacks
 {
+    public static PlatformManager Instance;
+
     #region References
 
     [SerializeField] GameObject prefabPlatform;
@@ -14,11 +16,39 @@ public class PlatformManager : MonoBehaviourPunCallbacks
 
     #region Unity Methods
 
+    private void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(Instance);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         myPV = GetComponent<PhotonView>();
+    }
 
-        myPV.RPC("InvokeRPCMethod", RpcTarget.AllBuffered, 2f);
+    #endregion
+
+    #region Public Methods
+
+    public void StartPlatformSpawnForAllPlayers()
+    {
+        myPV.RPC("InvokeRPCMethod", RpcTarget.All, 2f);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private void PlatformSpawn()
+    {
+        Instantiate(prefabPlatform, new Vector3(UnityEngine.Random.Range(-5, 5), gameObject.transform.position.y), Quaternion.identity, gameObject.transform);
     }
 
     #endregion
@@ -29,10 +59,6 @@ public class PlatformManager : MonoBehaviourPunCallbacks
     public void InvokeRPCMethod(float repeatInSeconds)
     {
         InvokeRepeating("PlatformSpawn", repeatInSeconds, repeatInSeconds);
-    }
-    public void PlatformSpawn()
-    {
-        Instantiate(prefabPlatform, new Vector3(UnityEngine.Random.Range(-5, 5), gameObject.transform.position.y), Quaternion.identity, gameObject.transform);
     }
 
     #endregion
