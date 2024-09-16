@@ -1,0 +1,169 @@
+using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    #region Enum
+
+    public enum PlayerStates { IDLE, MOVING}
+
+    #endregion
+
+    #region Knobs
+
+    [SerializeField] PlayerStates currentPlayerState;
+    [SerializeField] LayerMask groundLayerMask;
+    [SerializeField] Transform groundCheckRay;
+    [SerializeField] float playerSpeed, jumpForce;
+    [SerializeField] bool onLand, jumped = false;
+
+    #endregion
+
+    #region Runtime Variables
+
+    private Vector2 movementVector;
+
+    #endregion
+
+    #region References
+
+    PhotonView photonView;
+
+    Rigidbody2D rb2D;
+    Animator animator;
+    SpriteRenderer spriteRenderer;
+    TextMeshProUGUI playerNameTextMesh;
+
+    #endregion
+
+    #region Unity Methods
+
+    private void Start()
+    {
+        InitializeAvatar();
+    }
+
+    private void Update()
+    {
+        if (photonView.IsMine)
+        {
+            float m_movementX = Input.GetAxisRaw("Horizontal");
+            
+            movementVector = new Vector2(m_movementX, 0).normalized;
+
+            onLand = IsOnGround();
+            animator.SetBool("OnLand", onLand);
+            animator.SetBool("Falling", IsFalling());
+            animator.SetBool("Jumped", jumped);
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                JumpImpulse();
+                jumped = true;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (photonView.IsMine)
+        {
+            switch (currentPlayerState)
+            {
+                case PlayerStates.IDLE:
+                    if (movementVector != Vector2.zero)
+                    {
+                        currentPlayerState = PlayerStates.MOVING;
+                    }
+                    if(IsOnGround() && rb2D.velocity.x != 0)
+                    {
+                        rb2D.velocity = Vector2.zero;
+                    }
+                    break;
+
+                case PlayerStates.MOVING:
+                    if (movementVector == Vector2.zero)
+                    {
+                        currentPlayerState = PlayerStates.IDLE;
+                    }
+                    if (IsOnGround() == true && jumped == false)
+                    {
+                        if (rb2D.velocity.x != 0)
+                        {
+                            rb2D.velocity = Vector2.zero;
+                        }
+                        rb2D.MovePosition(rb2D.position + playerSpeed * Time.deltaTime * movementVector);
+                    }
+                    else if(IsOnGround() == false)
+                    {
+                        rb2D.AddForce(movementVector * playerSpeed * 3, ForceMode2D.Force);
+                        rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x, -5, 5), rb2D.velocity.y);
+                    }
+                    animator.SetInteger("MovementInt", (int)movementVector.x);
+                    SpriteFlip();
+                    
+                    break;
+            }
+            
+        }
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private bool IsOnGround()
+    {
+        Ray2D ray2D = new Ray2D(groundCheckRay.position, Vector2.down);
+
+        RaycastHit2D hit = Physics2D.Raycast(ray2D.origin, ray2D.direction, 0.05f, groundLayerMask);
+
+        return hit.collider is not null;
+    }
+
+    private bool IsFalling()
+    {
+        return rb2D.velocity.y < 0;
+    }
+
+    private void JumpImpulse()
+    {
+        if(IsOnGround() == true)
+        {
+            rb2D.AddForce(movementVector + Vector2.up * jumpForce, ForceMode2D.Impulse);
+            StartCoroutine(SetJumpedFalseInSeconds(0.5f));
+        }
+    }
+
+    private IEnumerator SetJumpedFalseInSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        jumped = false;
+    }
+
+    private void InitializeAvatar()
+    {
+        photonView = GetComponent<PhotonView>();
+        rb2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        playerNameTextMesh = GetComponent<TextMeshProUGUI>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void SpriteFlip()
+    {
+        if (movementVector.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (movementVector.x < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+    }
+
+    #endregion
+}

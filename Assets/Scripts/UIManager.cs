@@ -56,6 +56,18 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void OnClickVSOrCoopButton(bool playVSMode)
+    {
+        PhotonConnection.Instance.StartGame(playVSMode);
+    }
+
+
+    public void OnClickBackButton()
+    {
+        playPanel.SetActive(false);
+        menuPanel.SetActive(true);
+    }
+
     #endregion
 
     #region Public Methods

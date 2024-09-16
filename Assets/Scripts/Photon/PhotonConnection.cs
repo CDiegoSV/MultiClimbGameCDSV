@@ -8,6 +8,8 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
 {
     public static PhotonConnection Instance { get; private set; }
 
+    bool playVSMode = false;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -42,8 +44,14 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         print("Entro a Room: " + PhotonNetwork.CurrentRoom.Name);
-        //PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        PhotonNetwork.LoadLevel("GameScene");
+        if(playVSMode == true)
+        {
+            PhotonNetwork.LoadLevel("VSGame");
+        }
+        else
+        {
+            PhotonNetwork.LoadLevel("CoopGame");
+        }
     }
 
     //public override void OnCreateRoomFailed(short returnCode, string message)
@@ -71,6 +79,12 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         {
             return PhotonNetwork.NickName;
         }
+    }
+
+    public void StartGame(bool playVSModeBool)
+    {
+        PhotonNetwork.JoinRandomOrCreateRoom(null, 4, MatchmakingMode.FillRoom, null, null, null, newRoomInfo());
+        playVSMode = playVSModeBool; 
     }
 
     RoomOptions newRoomInfo()
