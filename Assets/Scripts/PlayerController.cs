@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2D;
     Animator animator;
     SpriteRenderer spriteRenderer;
-    TextMeshProUGUI playerNameTextMesh;
+    public TextMeshProUGUI playerNameTextMesh;
 
     #endregion
 
@@ -151,6 +151,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         playerNameTextMesh = GetComponent<TextMeshProUGUI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        //playerNameTextMesh.text = photonView.Owner.NickName;
     }
 
     private void SpriteFlip()

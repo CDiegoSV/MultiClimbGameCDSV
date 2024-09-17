@@ -95,6 +95,10 @@ public class UIManager : MonoBehaviour
         menuPanel.SetActive(true);
     }
 
+    public void SetPlayerName(TextMeshProUGUI playerTextMesh, string nickName)
+    {
+        playersNameTextMesh.text = nickName;
+    }
 
     #endregion
 

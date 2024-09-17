@@ -20,6 +20,8 @@ public class VSGameManager : MonoBehaviour
 
     #region References
 
+
+
     #endregion
 
     #region Unity Methods
@@ -60,6 +62,7 @@ public class VSGameManager : MonoBehaviour
         UIManager.Instance.RunTimerBool = true;
         yield return new WaitForSeconds(UIManager.Instance.TimerFloat);
         currentGameState = GameStates.GAME;
+        PlatformManager.Instance.StartPlatformSpawnForAllPlayers();
         UIManager.Instance.TimerFloat = 30f;
     }
 

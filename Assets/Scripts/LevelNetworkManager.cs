@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelNetworkManager : MonoBehaviourPunCallbacks
@@ -50,6 +51,14 @@ public class LevelNetworkManager : MonoBehaviourPunCallbacks
         {
             VSGameManager.instance.StartPreparationCorutine();
         }
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            if (player.GetPhotonView().IsMine == false)
+            {
+                UIManager.Instance.SetPlayerName(player.GetComponentInChildren<TextMeshProUGUI>(), player.GetPhotonView().Owner.NickName);
+            }
+        }
     }
 
     public override void OnLeftRoom()
@@ -65,6 +74,15 @@ public class LevelNetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         print("Entró nuevo usuario: " + newPlayer.NickName);
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            if(player.GetPhotonView().Owner == newPlayer)
+            {
+                UIManager.Instance.SetPlayerName(player.GetComponentInChildren<TextMeshProUGUI>(), newPlayer.NickName);
+            }
+        }
+
         if(getCurrentPlayerCount == 4)
         {
             VSGameManager.instance.StartPreparationCorutine();

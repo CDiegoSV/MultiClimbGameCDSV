@@ -230,6 +230,7 @@ MonoBehaviour:
   jumpForce: 7
   onLand: 0
   jumped: 0
+  playerNameTextMesh: {fileID: 8209910400366875547}
 --- !u!212 &7582502984755013505
 SpriteRenderer:
   m_ObjectHideFlags: 0
