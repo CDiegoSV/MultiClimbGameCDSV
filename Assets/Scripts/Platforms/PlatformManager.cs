@@ -48,7 +48,8 @@ public class PlatformManager : MonoBehaviourPunCallbacks
 
     private void PlatformSpawn()
     {
-        Instantiate(prefabPlatform, new Vector3(UnityEngine.Random.Range(-5, 5), gameObject.transform.position.y), Quaternion.identity, gameObject.transform);
+        //Instantiate(prefabPlatform, new Vector3(UnityEngine.Random.Range(-5, 5), gameObject.transform.position.y), Quaternion.identity, gameObject.transform);
+        PhotonNetwork.Instantiate("Platform", new Vector3(UnityEngine.Random.Range(-5, 5), gameObject.transform.position.y), Quaternion.identity);
     }
 
     #endregion

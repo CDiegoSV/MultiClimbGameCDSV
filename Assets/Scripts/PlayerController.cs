@@ -149,9 +149,9 @@ public class PlayerController : MonoBehaviour
         photonView = GetComponent<PhotonView>();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        playerNameTextMesh = GetComponent<TextMeshProUGUI>();
+        //playerNameTextMesh = GetComponent<TextMeshProUGUI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        //playerNameTextMesh.text = photonView.Owner.NickName;
+        playerNameTextMesh.text = photonView.Owner.NickName;
     }
 
     private void SpriteFlip()

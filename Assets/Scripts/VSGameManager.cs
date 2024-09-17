@@ -14,6 +14,8 @@ public class VSGameManager : MonoBehaviour
 
     [SerializeField] GameStates currentGameState;
 
+    [SerializeField] bool gameStarted = false;
+
     #endregion
 
     public static VSGameManager instance;
@@ -41,6 +43,15 @@ public class VSGameManager : MonoBehaviour
     private void Start()
     {
         
+    }
+
+    private void Update()
+    {
+        if (LevelNetworkManager.Instance.getCurrentPlayerCount == 2 && gameStarted == false)
+        {
+            VSGameManager.instance.StartPreparationCorutine();
+            gameStarted = true;
+        }
     }
 
     #endregion

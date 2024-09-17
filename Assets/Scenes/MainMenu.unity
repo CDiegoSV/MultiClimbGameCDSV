@@ -3089,6 +3089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playersNameTextMesh: {fileID: 1945972222}
+  timerTextMesh: {fileID: 0}
   nameInputField: {fileID: 511482588}
   loadingPanel: {fileID: 921374106}
   menuPanel: {fileID: 302053743}

@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
         if (_runTimer && _timer > 0)
         {
             _timer -= Time.deltaTime;
-            timerTextMesh.text = _timer.ToString();
+            timerTextMesh.text = _timer.ToString("0");
         }
     }
 
