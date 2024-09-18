@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Platforms
+    uniqueID: 3745414141
+    locked: 0
+  - name: PlayerGround
+    uniqueID: 3401403917
+    locked: 0

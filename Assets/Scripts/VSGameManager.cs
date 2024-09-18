@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class VSGameManager : MonoBehaviour
 
     #region References
 
-
+    PhotonView myPV;
 
     #endregion
 
@@ -42,14 +43,14 @@ public class VSGameManager : MonoBehaviour
 
     private void Start()
     {
-        
+        myPV = GetComponent<PhotonView>();
     }
 
     private void Update()
     {
-        if (LevelNetworkManager.Instance.getCurrentPlayerCount == 2 && gameStarted == false)
+        if (LevelNetworkManager.Instance.getCurrentPlayerCount == 1 && gameStarted == false && myPV.IsMine)
         {
-            VSGameManager.instance.StartPreparationCorutine();
+            StartPreparationCorutine();
             gameStarted = true;
         }
     }
@@ -73,7 +74,7 @@ public class VSGameManager : MonoBehaviour
         UIManager.Instance.RunTimerBool = true;
         yield return new WaitForSeconds(UIManager.Instance.TimerFloat);
         currentGameState = GameStates.GAME;
-        PlatformManager.Instance.StartPlatformSpawnForAllPlayers();
+        PlatformManager.Instance.InvokePlatformsMethod(1.7f);
         UIManager.Instance.TimerFloat = 30f;
     }
 

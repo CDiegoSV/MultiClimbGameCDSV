@@ -27,7 +27,8 @@ public class PlatformBehaviour : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb2D.MovePosition(rb2D.position + platformSpeed * Time.deltaTime * Vector2.down);
+        //rb2D.MovePosition(rb2D.position + platformSpeed * Time.deltaTime * Vector2.down);
+        transform.Translate(Vector2.down * Time.deltaTime * platformSpeed);
     }
 
 
