@@ -32,31 +32,13 @@ public class LevelNetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public int getCurrentPlayerCount
-    {
-        get
-        {
-            return PhotonNetwork.CurrentRoom.PlayerCount;
-        }
-    }
+
 
 
     #endregion
 
     #region PUN Methods
 
-    public override void OnJoinedRoom()
-    {
-        
-        //GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        //foreach (GameObject player in players)
-        //{
-        //    if (player.GetPhotonView().IsMine == false)
-        //    {
-        //        UIManager.Instance.SetPlayerName(player.GetComponentInChildren<TextMeshProUGUI>(), player.GetPhotonView().Owner.NickName);
-        //    }
-        //}
-    }
 
     public override void OnLeftRoom()
     {
@@ -71,15 +53,19 @@ public class LevelNetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         print("Entró nuevo usuario: " + newPlayer.NickName);
-        //GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        //foreach (GameObject player in players)
-        //{
-        //    if(player.GetPhotonView().Owner == newPlayer)
-        //    {
-        //        UIManager.Instance.SetPlayerName(player.GetComponentInChildren<TextMeshProUGUI>(), newPlayer.NickName);
-        //    }
-        //}
 
+    }
+
+    #endregion
+
+    #region Getters And Setters
+
+    public int getCurrentPlayerCount
+    {
+        get
+        {
+            return PhotonNetwork.CurrentRoom.PlayerCount;
+        }
     }
 
     #endregion

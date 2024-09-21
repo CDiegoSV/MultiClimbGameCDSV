@@ -11,6 +11,10 @@ public class PlayerSpawnManager : MonoBehaviour
 
     PhotonView myPV;
 
+    [SerializeField] Transform[] spawnPositions;
+
+    Transform spawnTransform;
+
     #region Unity Methods
 
     private void Awake()
@@ -27,17 +31,19 @@ public class PlayerSpawnManager : MonoBehaviour
 
     private void Start()
     {
-        GameObject playerInstance = PhotonNetwork.Instantiate("Player", transform.position, Quaternion.identity);
+        switch (LevelNetworkManager.Instance.getCurrentPlayerCount)
+        {
+            case 1:
+                spawnTransform = spawnPositions[0];
+                break;
+            case 2:
+                spawnTransform = spawnPositions[1];
+                break;
+        }
+        GameObject playerInstance = PhotonNetwork.Instantiate("Player", spawnTransform.position, Quaternion.identity);
         TextMeshProUGUI nameTextMesh = playerInstance.GetComponent<PlayerController>().playerNameTextMesh;
-        //myPV.RPC("SetNickName", RpcTarget.AllBuffered, nameTextMesh);
         playerInstance.GetComponentInChildren<TextMeshProUGUI>().text = PhotonNetwork.NickName;
     }
-
-    //[PunRPC] 
-    //public void SetNickName(TextMeshProUGUI playerTextMesh)
-    //{
-    //    playerTextMesh.text = myPV.Owner.NickName;
-    //}
 
     #endregion
 }

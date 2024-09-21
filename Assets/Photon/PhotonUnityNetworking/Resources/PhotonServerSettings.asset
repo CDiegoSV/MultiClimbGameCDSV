@@ -41,6 +41,12 @@ MonoBehaviour:
   - RespawnSpaceship
   - InvokeRPCMethod
   - SetNickName
+  - TimerTextUpdate
+  - StartPreparationCorutine
+  - PrepareTimerValues
+  - SetGameStateForAllPlayers
+  - SetCurrentAlivePlayersInScene
+  - DecreaseAlivePlayersInt
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

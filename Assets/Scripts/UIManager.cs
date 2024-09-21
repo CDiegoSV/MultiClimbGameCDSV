@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,9 +10,10 @@ public class UIManager : MonoBehaviour
 
     #region References
 
-    [SerializeField] TextMeshProUGUI playersNameTextMesh, timerTextMesh;
+    [SerializeField] TextMeshProUGUI playersNameTextMesh, timerTextMesh, winTextMesh;
     [SerializeField] TMP_InputField nameInputField;
     [SerializeField] GameObject loadingPanel, menuPanel, playPanel, okButton;
+    [SerializeField] PhotonView myPV;
 
     #endregion
 
@@ -41,7 +43,7 @@ public class UIManager : MonoBehaviour
         if (_runTimer && _timer > 0)
         {
             _timer -= Time.deltaTime;
-            timerTextMesh.text = _timer.ToString("0");
+            myPV.RPC("TimerTextUpdate", RpcTarget.AllBuffered);
         }
     }
 
@@ -50,13 +52,20 @@ public class UIManager : MonoBehaviour
     #region OnClick Methods
     public void OnClickOkButton()
     {
-        if(nameInputField.text != "")
+        if(nameInputField.text != "" )
         {
             okButton.SetActive(false);
             nameInputField.gameObject.SetActive(false);
             playersNameTextMesh.gameObject.SetActive(true);
             playersNameTextMesh.text = nameInputField.text;
             PhotonConnection.Instance.SetPlayerNickName(playersNameTextMesh.text);
+        }
+        else if(PhotonConnection.Instance.GetPlayerNickName != "")
+        {
+            okButton.SetActive(false);
+            nameInputField.gameObject.SetActive(false);
+            playersNameTextMesh.gameObject.SetActive(true);
+            playersNameTextMesh.text = PhotonConnection.Instance.GetPlayerNickName;
         }
     }
 
@@ -100,8 +109,35 @@ public class UIManager : MonoBehaviour
         playersNameTextMesh.text = nickName;
     }
 
+    public void CallRPCTimerMethod(float seconds)
+    {
+        myPV.RPC("PrepareTimerValues", RpcTarget.AllBuffered, seconds);
+    }
+
+    public void DisplayWinner(string winner)
+    {
+        winTextMesh.gameObject.SetActive(true);
+        winTextMesh.text = winner;
+    }
+
     #endregion
 
+    #region PUN Methods
+
+    [PunRPC]
+    private void TimerTextUpdate()
+    {
+        timerTextMesh.text = _timer.ToString("0") + "s";
+    }
+
+    [PunRPC]
+    private void PrepareTimerValues(float seconds)
+    {
+        TimerFloat = seconds;
+        RunTimerBool = true;
+    }
+
+    #endregion
 
     #region Getters and Setters
 

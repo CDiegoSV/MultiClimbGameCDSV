@@ -59,7 +59,7 @@ public class PlatformManager : MonoBehaviourPunCallbacks
     
     public void InvokePlatformsMethod(float repeatInSeconds)
     {
-        InvokeRepeating("PlatformSpawn", repeatInSeconds, repeatInSeconds);
+        InvokeRepeating("PlatformSpawn", 0.1f, repeatInSeconds);
     }
 
     #endregion

@@ -37,7 +37,10 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         print("Ha entrado al lobby Ab");
-        PhotonNetwork.NickName = "";
+        if(GetPlayerNickName != "")
+        {
+            UIManager.Instance.OnClickOkButton();
+        }
         UIManager.Instance.LoadingPanelTransition();
     }
 

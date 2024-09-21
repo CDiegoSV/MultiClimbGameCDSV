@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     #region Enum
 
-    public enum PlayerStates { IDLE, MOVING, LOCKED}
+    public enum PlayerStates { LOCKED, IDLE, MOVING }
 
     #endregion
 
@@ -50,20 +50,31 @@ public class PlayerController : MonoBehaviour
     {
         if (photonView.IsMine)
         {
-            float m_movementX = Input.GetAxisRaw("Horizontal");
-            
-            movementVector = new Vector2(m_movementX, 0).normalized;
-
-            onLand = IsOnGround();
-            animator.SetBool("OnLand", onLand);
-            animator.SetBool("Falling", IsFalling());
-            animator.SetBool("Jumped", jumped);
-
-            if (Input.GetKeyDown(KeyCode.Space) && IsOnGround())
+            if(PlayerStates.LOCKED == currentPlayerState)
             {
-                JumpImpulse();
-                jumped = true;
+                if(VSGameManager.instance.CurrentGameState == VSGameManager.GameStates.GAME)
+                {
+                    currentPlayerState = PlayerStates.IDLE;
+                }
             }
+            else
+            {
+                float m_movementX = Input.GetAxisRaw("Horizontal");
+
+                movementVector = new Vector2(m_movementX, 0).normalized;
+
+                onLand = IsOnGround();
+                animator.SetBool("OnLand", onLand);
+                animator.SetBool("Falling", IsFalling());
+                animator.SetBool("Jumped", jumped);
+
+                if (Input.GetKeyDown(KeyCode.Space) && IsOnGround())
+                {
+                    JumpImpulse();
+                    jumped = true;
+                }
+            }
+            
         }
     }
 
