@@ -7,7 +7,7 @@ public class VSGameManager : MonoBehaviour
 {
     #region Enums
 
-    public enum GameStates { WAITINGFORPLAYERS, GAME, GAME_FINISHED, NONE}
+    public enum GameStates { NONE, WAITINGFORPLAYERS, GAME, GAME_FINISHED}
 
     #endregion
 
@@ -48,6 +48,11 @@ public class VSGameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        currentGameState = GameStates.WAITINGFORPLAYERS;
+    }
+
     private void Update()
     {
         
@@ -74,7 +79,7 @@ public class VSGameManager : MonoBehaviour
                 else if(_alivePlayers == 1)
                 {
                     GameObject player = GameObject.FindGameObjectWithTag("Player");
-                    UIManager.Instance.DisplayWinner(player.GetPhotonView().Owner.NickName + "Win");
+                    UIManager.Instance.DisplayWinner(player.GetPhotonView().Owner.NickName + " Wins");
                     StartCoroutine(FinishedGameCorutine());
                     currentGameState = GameStates.GAME_FINISHED;
                 }

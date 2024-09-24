@@ -3090,6 +3090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersNameTextMesh: {fileID: 1945972222}
   timerTextMesh: {fileID: 0}
+  winTextMesh: {fileID: 0}
   nameInputField: {fileID: 511482588}
   loadingPanel: {fileID: 921374106}
   menuPanel: {fileID: 302053743}
@@ -4017,7 +4018,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ascension Quest
+  m_text: Ascension Conquest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 32d3da50b67c5514fb13c117d7051f48, type: 2}
   m_sharedMaterial: {fileID: -6733965382210994308, guid: 32d3da50b67c5514fb13c117d7051f48, type: 2}
