@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     SpriteRenderer spriteRenderer;
     public TextMeshProUGUI playerNameTextMesh;
+    [SerializeField] GameObject hitCollider;
 
     #endregion
 
@@ -52,10 +53,18 @@ public class PlayerController : MonoBehaviour
         {
             if(PlayerStates.LOCKED == currentPlayerState)
             {
-                if(VSGameManager.instance.CurrentGameState == VSGameManager.GameStates.GAME)
+                if(VSGameManager.instance != null)
+                {
+                    if (VSGameManager.instance.CurrentGameState == VSGameManager.GameStates.GAME)
+                    {
+                        currentPlayerState = PlayerStates.IDLE;
+                    }
+                }
+                else
                 {
                     currentPlayerState = PlayerStates.IDLE;
                 }
+
             }
             else
             {
@@ -169,10 +178,18 @@ public class PlayerController : MonoBehaviour
     {
         if (movementVector.x > 0)
         {
+            hitCollider.transform.position = new Vector3(0.371f, hitCollider.transform.position.y, hitCollider.transform.position.z);
+            hitCollider.transform.localScale = new Vector3(1, hitCollider.transform.localScale.y, hitCollider.transform.localScale.z);
+            
             spriteRenderer.flipX = false;
         }
         else if (movementVector.x < 0)
         {
+            if (spriteRenderer.flipX == false)
+            {
+                hitCollider.transform.position = new Vector3(-0.371f, hitCollider.transform.position.y, hitCollider.transform.position.z);
+                hitCollider.transform.localScale = new Vector3(-1, hitCollider.transform.localScale.y, hitCollider.transform.localScale.z);
+            }
             spriteRenderer.flipX = true;
         }
     }

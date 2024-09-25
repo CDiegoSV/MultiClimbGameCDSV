@@ -53,7 +53,7 @@ public class PhotonConnection : MonoBehaviourPunCallbacks
         }
         else
         {
-            PhotonNetwork.LoadLevel("CoopGame");
+            PhotonNetwork.LoadLevel("TestScene");
         }
     }
 
