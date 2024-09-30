@@ -1,4 +1,6 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,11 +12,13 @@ public class PlayerController : MonoBehaviour
 
     public enum PlayerStates { LOCKED, IDLE, MOVING }
 
+    public ExitGames.Client.Photon.Hashtable playerHashtable;
     #endregion
 
     #region Knobs
 
     public PlayerStates currentPlayerState;
+    
     [SerializeField] LayerMask groundLayerMask;
     [SerializeField] Transform groundCheckRay;
     [SerializeField] float playerSpeed, jumpForce;
@@ -171,7 +175,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         //playerNameTextMesh = GetComponent<TextMeshProUGUI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        //playerHashtable.Add("SpriteFlipX", spriteRenderer.flipX);
         playerNameTextMesh.text = photonView.Owner.NickName;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerHashtable);
+
     }
 
     private void SpriteFlip()
@@ -180,7 +187,7 @@ public class PlayerController : MonoBehaviour
         {
             hitCollider.transform.position = new Vector3(0.371f, hitCollider.transform.position.y, hitCollider.transform.position.z);
             hitCollider.transform.localScale = new Vector3(1, hitCollider.transform.localScale.y, hitCollider.transform.localScale.z);
-            
+
             spriteRenderer.flipX = false;
         }
         else if (movementVector.x < 0)
