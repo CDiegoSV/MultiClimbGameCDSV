@@ -1,18 +1,15 @@
-using ExitGames.Client.Photon;
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks/*, IPunObservable*/
 {
     #region Enum
 
     public enum PlayerStates { LOCKED, IDLE, MOVING }
 
-    public ExitGames.Client.Photon.Hashtable playerHashtable;
     #endregion
 
     #region Knobs
@@ -34,11 +31,10 @@ public class PlayerController : MonoBehaviour
 
     #region References
 
-    PhotonView photonView;
 
-    Rigidbody2D rb2D;
-    Animator animator;
-    SpriteRenderer spriteRenderer;
+    [SerializeField] Rigidbody2D rb2D;
+    [SerializeField] Animator animator;
+    [SerializeField] SpriteRenderer spriteRenderer;
     public TextMeshProUGUI playerNameTextMesh;
     [SerializeField] GameObject hitCollider;
 
@@ -48,7 +44,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        InitializeAvatar();
+        if (photonView.IsMine)
+        {
+            InitializeAvatar();
+
+        }
     }
 
     private void Update()
@@ -170,36 +170,47 @@ public class PlayerController : MonoBehaviour
 
     private void InitializeAvatar()
     {
-        photonView = GetComponent<PhotonView>();
-        rb2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        //playerNameTextMesh = GetComponent<TextMeshProUGUI>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        //playerHashtable.Add("SpriteFlipX", spriteRenderer.flipX);
         playerNameTextMesh.text = photonView.Owner.NickName;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(playerHashtable);
-
     }
 
     private void SpriteFlip()
     {
+        
         if (movementVector.x > 0)
         {
-            hitCollider.transform.position = new Vector3(0.371f, hitCollider.transform.position.y, hitCollider.transform.position.z);
-            hitCollider.transform.localScale = new Vector3(1, hitCollider.transform.localScale.y, hitCollider.transform.localScale.z);
-
             spriteRenderer.flipX = false;
+            hitCollider.transform.localScale = new Vector3(1, 1, 1);
+            photonView.RPC("UpdateFlipNScale", RpcTarget.Others, spriteRenderer.flipX, hitCollider.transform.localScale);
         }
         else if (movementVector.x < 0)
         {
-            if (spriteRenderer.flipX == false)
-            {
-                hitCollider.transform.position = new Vector3(-0.371f, hitCollider.transform.position.y, hitCollider.transform.position.z);
-                hitCollider.transform.localScale = new Vector3(-1, hitCollider.transform.localScale.y, hitCollider.transform.localScale.z);
-            }
+            
             spriteRenderer.flipX = true;
+            hitCollider.transform.localScale = new Vector3(-1, 1, 1);
+            photonView.RPC("UpdateFlipNScale", RpcTarget.Others, spriteRenderer.flipX, hitCollider.transform.localScale);
         }
     }
 
+    [PunRPC]
+    void UpdateFlipNScale(bool flipX, Vector3 scale)
+    {
+        spriteRenderer.flipX = flipX;
+        hitCollider.transform.localScale = scale;
+    }
+
     #endregion
+
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if(stream.IsWriting)
+    //    {
+    //        stream.SendNext(spriteRenderer.flipX);
+    //        //stream.SendNext(hitCollider.transform.localScale);
+    //    }
+    //    else
+    //    {
+    //        spriteRenderer.flipX = (bool)stream.ReceiveNext();
+    //        //hitCollider.transform.localScale = (Vector3)stream.ReceiveNext();
+    //    }
+    //}
 }

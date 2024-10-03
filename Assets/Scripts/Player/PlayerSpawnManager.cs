@@ -31,7 +31,7 @@ public class PlayerSpawnManager : MonoBehaviour
 
     private void Start()
     {
-        switch (LevelNetworkManager.Instance.getCurrentPlayerCount)
+        switch (LevelNetworkManager.Instance?.getCurrentPlayerCount)
         {
             case 1:
                 spawnTransform = spawnPositions[0];
@@ -39,6 +39,10 @@ public class PlayerSpawnManager : MonoBehaviour
             case 2:
                 spawnTransform = spawnPositions[1];
                 break;
+        }
+        if(LevelNetworkManager.Instance == null)
+        {
+            spawnTransform = spawnPositions[0];
         }
         GameObject playerInstance = PhotonNetwork.Instantiate("Player", spawnTransform.position, Quaternion.identity);
         TextMeshProUGUI nameTextMesh = playerInstance.GetComponent<PlayerController>().playerNameTextMesh;

@@ -27,12 +27,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263507912521249369}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.371, y: -0.235, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.371, y: -0.23499998, z: 0}
   m_LocalScale: {x: 1.36, y: 1.43, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1241752716555539576}
+  m_Father: {fileID: 1000350801158379660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6302288114016494251
 SpriteRenderer:
@@ -152,6 +152,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &5604326631865495394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1000350801158379660}
+  m_Layer: 6
+  m_Name: PivotCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1000350801158379660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5604326631865495394}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5885706011463278259}
+  m_Father: {fileID: 1241752716555539576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6213969575898485223
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +390,7 @@ Transform:
   m_Children:
   - {fileID: 6997128217376153679}
   - {fileID: 6116536280301369933}
-  - {fileID: 5885706011463278259}
+  - {fileID: 1000350801158379660}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7135530362636092135
@@ -382,8 +414,11 @@ MonoBehaviour:
   jumpForce: 7
   onLand: 0
   jumped: 0
+  rb2D: {fileID: 2488116593792784657}
+  animator: {fileID: 5629092115987002958}
+  spriteRenderer: {fileID: 7582502984755013505}
   playerNameTextMesh: {fileID: 8209910400366875547}
-  hitCollider: {fileID: 1263507912521249369}
+  hitCollider: {fileID: 5604326631865495394}
 --- !u!212 &7582502984755013505
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -613,6 +648,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Jumped
+  - Type: 9
+    SynchronizeType: 0
+    Name: Punch
+  - Type: 9
+    SynchronizeType: 0
+    Name: Hit
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

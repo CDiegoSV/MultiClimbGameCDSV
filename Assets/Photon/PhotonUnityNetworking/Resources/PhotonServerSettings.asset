@@ -47,6 +47,7 @@ MonoBehaviour:
   - SetGameStateForAllPlayers
   - SetCurrentAlivePlayersInScene
   - DecreaseAlivePlayersInt
+  - UpdateFlipNScale
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
